@@ -31,8 +31,14 @@ class BrewAutoUpdate < Formula
     <key>ProcessType</key>
     <string>Background</string>
 
-    <key>StartInterval</key>
-    <integer>1800</integer>
+    <key>StartCalendarInterval</key>
+    <dict>
+      <!-- 7:00am each day -->
+      <key>Hour</key>
+      <integer>7</integer>
+      <key>Minute</key>
+      <integer>0</integer>
+    </dict>
 
     <key>RunAtLoad</key>
     <true/>
