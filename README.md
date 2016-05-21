@@ -6,14 +6,14 @@ when something new is available.  (It doesn't call `upgrade`, yet.)
 
 To install, use
 
-    brew install petere/auto-update/brew-auto-update --HEAD
+    brew install jsok/auto-update/brew-auto-update --HEAD
 
 and then follow the instructions that are printed:
 
 ```
 ==> Caveats
-To have launchd start petere/auto-update/brew-auto-update now and restart at login:
-  brew services start petere/auto-update/brew-auto-update
+To have launchd start jsok/auto-update/brew-auto-update now and restart at login:
+  brew services start jsok/auto-update/brew-auto-update
 ```
 
 The App Store preferences for checking for updates are respected, so
