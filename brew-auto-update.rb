@@ -44,10 +44,10 @@ class BrewAutoUpdate < Formula
     <true/>
 
     <key>StandardOutPath</key>
-    <string>/tmp/brew-auto-update.out</string>
+    <string>~/Library/Logs/brew-auto-update/update.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/tmp/brew-auto-update.err</string>
+    <string>~/Library/Logs/brew-auto-update/update.log</string>
   </dict>
 </plist>
 EOS
