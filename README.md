@@ -2,7 +2,7 @@
 
 This is a little thingy that automatically calls `brew update` and
 optionally `brew fetch` and `brew upgrade` on a schedule.
-By default, it does so every half hour and sends you a notification
+By default, it does so every day at 7am and sends you a notification
 when something new is available.
 
 To install, use
