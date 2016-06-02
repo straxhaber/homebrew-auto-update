@@ -8,27 +8,31 @@ PATH=/usr/local/bin:$PATH
 # Check OS X system settings.  Note that the Homebrew terminology is
 # different from OS X:
 #
-# Homebrew: update -> fetch -> upgrade
-# OS X: check -> download -> update
+# Homebrew: update -> fetch    -> upgrade
+# OS X:     check  -> download -> update
 #
 auto_update=$(defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled)
 auto_fetch=$(defaults read /Library/Preferences/com.apple.SoftwareUpdate AutomaticDownload)
 auto_upgrade=$(defaults read /Library/Preferences/com.apple.commerce AutoUpdate)
 
+# Don't run if auto-update is disabled
 if [ "$auto_update" != 1 ]; then
 	exit
 fi
 
+# Only run if GitHub is reachable
 if [ "$(scutil -r github.com)" != 'Reachable' ]; then
 	exit
 fi
 
+# Check which Terminal app to open if notification is clicked by user
 for termapp in iTerm Terminal; do
 	if termapp_id=$(osascript -e "id of app \"$termapp\"" 2>/dev/null) && [ -n "$termapp_id" ]; then
 		break
 	fi
 done
 
+# Run brew update and notify user if it failed
 if ! out=$(brew update 2>&1); then
 	terminal-notifier \
 		-group 'org.eisentraut.BrewAutoUpdate' \
@@ -41,22 +45,28 @@ if ! out=$(brew update 2>&1); then
 	exit 1
 fi
 
+# Determine if any formulae were updated
 if printf "%s" "$out" | grep 'Already up-to-date.'; then
 	updated=false
 else
 	updated=true
 fi
 
+# Determine which installed formulae are outdated
 outdated=$(brew outdated | tr '\n' ' ' | sed 's/ $//')
 
+# If formulae were updated and installed packages are outdated...
 if $updated && [ -n "$outdated" ]; then
+	# Fetch outdated packages if auto-fetch is enabled
 	if [ "$auto_fetch" = 1 ]; then
 		brew fetch $outdated || :
 	fi
 
 	if [ "$auto_upgrade" = 1 ]; then
+		# Upgrade outdated packages if auto-upgrade is enabled
 		brew upgrade $outdated || :
 	else
+		# Notify user of outdated packages
 		terminal-notifier \
 			-group 'org.eisentraut.BrewAutoUpdate' \
 			-sound 'Bottle' \
@@ -67,5 +77,6 @@ if $updated && [ -n "$outdated" ]; then
 			>/dev/null
 	fi
 elif [ -z "$outdated" ]; then
+	# remove old notifications if there are no longer outdated packages
 	terminal-notifier -remove 'org.eisentraut.BrewAutoUpdate' >/dev/null
 fi
