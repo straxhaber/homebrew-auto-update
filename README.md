@@ -19,3 +19,14 @@ To have launchd start straxhaber/auto-update/brew-auto-update now and restart at
 
 The App Store preferences for checking for updates are respected, so
 to turn off updating or fetching, change the settings there.
+
+## History
+This project was started by [petere](https://github.com/petere).
+I forked his project to:
+
+* enable automatic Homebrew upgrades, and
+* merge improvements from
+  [jsok](https://github.com/jsok/homebrew-auto-update) and
+  [xakraz](https://github.com/xakraz/homebrew-auto-update).
+
+Feel free to submit issues and pull requests with improvements.
