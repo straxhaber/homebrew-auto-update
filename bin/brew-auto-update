@@ -65,7 +65,7 @@ fi
 outdated=$(brew outdated | tr '\n' ' ' | sed 's/ $//')
 
 # If formulae were updated and installed packages are outdated...
-if $updated && [ -n "$outdated" ]; then
+if [ -n "$outdated" ]; then
   if [ "$auto_upgrade" = 1 ]; then
     # Upgrade outdated packages if auto-upgrade is enabled
     brew upgrade $outdated || :
@@ -76,9 +76,9 @@ if $updated && [ -n "$outdated" ]; then
     fi
 
     # Notify user of outdated packages
-    show_notification 'package updates' "$outdated"
+    show_notification 'package updates available' "$outdated"
   fi
-elif [ -z "$outdated" ]; then
+else
   # remove old notifications if there are no longer outdated packages
   terminal-notifier -remove "$NOTIFICATION_GROUP" >/dev/null
 fi
