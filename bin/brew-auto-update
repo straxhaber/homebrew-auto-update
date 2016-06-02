@@ -57,15 +57,15 @@ outdated=$(brew outdated | tr '\n' ' ' | sed 's/ $//')
 
 # If formulae were updated and installed packages are outdated...
 if $updated && [ -n "$outdated" ]; then
-	# Fetch outdated packages if auto-fetch is enabled
-	if [ "$auto_fetch" = 1 ]; then
-		brew fetch $outdated || :
-	fi
-
 	if [ "$auto_upgrade" = 1 ]; then
 		# Upgrade outdated packages if auto-upgrade is enabled
 		brew upgrade $outdated || :
 	else
+		# Fetch outdated packages if auto-fetch is enabled
+		if [ "$auto_fetch" = 1 ]; then
+			brew fetch $outdated || :
+		fi
+
 		# Notify user of outdated packages
 		terminal-notifier \
 			-group 'org.eisentraut.BrewAutoUpdate' \
