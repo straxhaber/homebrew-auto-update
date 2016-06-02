@@ -53,14 +53,19 @@ if $updated && [ -n "$outdated" ]; then
 	if [ "$auto_fetch" = 1 ]; then
 		brew fetch $outdated || :
 	fi
-	terminal-notifier \
-		-group 'org.eisentraut.BrewAutoUpdate' \
-		-sound 'Bottle' \
-		-title 'Homebrew' \
-		-subtitle 'package updates' \
-		-message "$outdated" \
-		-activate "$termapp_id" \
-		>/dev/null
+
+	if [ "$auto_upgrade" = 1 ]; then
+		brew upgrade $outdated || :
+	else
+		terminal-notifier \
+			-group 'org.eisentraut.BrewAutoUpdate' \
+			-sound 'Bottle' \
+			-title 'Homebrew' \
+			-subtitle 'package updates' \
+			-message "$outdated" \
+			-activate "$termapp_id" \
+			>/dev/null
+	fi
 elif [ -z "$outdated" ]; then
 	terminal-notifier -remove 'org.eisentraut.BrewAutoUpdate' >/dev/null
 fi
