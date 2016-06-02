@@ -5,7 +5,7 @@ set -o pipefail
 
 PATH=/usr/local/bin:$PATH
 
-NOTIFICATION_GROUP='org.eisentraut.BrewAutoUpdate'
+NOTIFICATION_GROUP='com.straxhaber.BrewAutoUpdate'
 NOTIFICATION_SOUND='Glass'
 NOTIFICATION_TITLE='Homebrew'
 

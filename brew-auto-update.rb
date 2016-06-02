@@ -1,8 +1,8 @@
 require 'formula'
 
 class BrewAutoUpdate < Formula
-  homepage 'https://github.com/petere/homebrew-auto-update/'
-  head 'https://github.com/petere/homebrew-auto-update.git', :branch => 'master'
+  homepage 'https://github.com/straxhaber/homebrew-auto-update/'
+  head 'https://github.com/straxhaber/homebrew-auto-update.git', :branch => 'master'
 
   depends_on 'terminal-notifier'
 
