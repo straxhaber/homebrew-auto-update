@@ -5,6 +5,10 @@ set -o pipefail
 
 PATH=/usr/local/bin:$PATH
 
+NOTIFICATION_GROUP='org.eisentraut.BrewAutoUpdate'
+NOTIFICATION_SOUND='Glass'
+NOTIFICATION_TITLE='Homebrew'
+
 # Check OS X system settings.  Note that the Homebrew terminology is
 # different from OS X:
 #
@@ -32,16 +36,22 @@ for termapp in iTerm Terminal; do
 	fi
 done
 
-# Run brew update and notify user if it failed
-if ! out=$(brew update 2>&1); then
+function show_notification () {
+	notification_subtitle="$1"
+	notification_message="$2"
 	terminal-notifier \
-		-group 'org.eisentraut.BrewAutoUpdate' \
-		-sound 'Glass' \
-		-title 'Homebrew' \
-		-subtitle 'update failed' \
-		-message "$out" \
+		-group "$NOTIFICATION_GROUP" \
+		-sound "$NOTIFICATION_SOUND" \
+		-title "$NOTIFICATION_TITLE" \
+		-subtitle "$notification_subtitle" \
+		-message "$notification_message" \
 		-activate "$termapp_id" \
 		>/dev/null
+}
+
+# Run brew update and notify user if it failed
+if ! out=$(brew update 2>&1); then
+	show_notification 'update failed' "$out"
 	exit 1
 fi
 
@@ -67,16 +77,9 @@ if $updated && [ -n "$outdated" ]; then
 		fi
 
 		# Notify user of outdated packages
-		terminal-notifier \
-			-group 'org.eisentraut.BrewAutoUpdate' \
-			-sound 'Bottle' \
-			-title 'Homebrew' \
-			-subtitle 'package updates' \
-			-message "$outdated" \
-			-activate "$termapp_id" \
-			>/dev/null
+		show_notification 'package updates' "$outdated"
 	fi
 elif [ -z "$outdated" ]; then
 	# remove old notifications if there are no longer outdated packages
-	terminal-notifier -remove 'org.eisentraut.BrewAutoUpdate' >/dev/null
+	terminal-notifier -remove "$NOTIFICATION_GROUP" >/dev/null
 fi
