@@ -69,6 +69,7 @@ if [ -n "$outdated" ]; then
   if [ "$auto_upgrade" = 1 ]; then
     # Upgrade outdated packages if auto-upgrade is enabled
     brew upgrade $outdated || :
+    show_notification 'updated packages' "$outdated"
   else
     # Fetch outdated packages if auto-fetch is enabled
     if [ "$auto_fetch" = 1 ]; then
