@@ -1,3 +1,6 @@
+> [!WARNING]
+> This repository is deprecated. Homebrew now includes this functionality natively for most users, so this tap is no longer actively maintained.
+
 # Automatic updates for Homebrew
 
 This is a little thingy that automatically calls `brew update` and
